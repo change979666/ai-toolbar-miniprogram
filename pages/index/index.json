@@ -1,0 +1,8 @@
+{
+	"usingComponents": {
+		"navigation-bar": "/components/navigation-bar/navigation-bar"
+	},
+	"navigationStyle": "custom",
+	"navigationBarTextStyle": "white",
+	"navigationBarTitleText": "AI工具栏"
+}

@@ -1,0 +1,5 @@
+<!--pages/index/index.wxml-->
+<navigation-bar title="AI灵感工具栏"></navigation-bar>
+<view class="container">
+  <!-- 页面内容 -->
+</view>

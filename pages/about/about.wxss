@@ -1,0 +1,233 @@
+page {
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* 导航栏固定定位 */
+.nav-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+/* 添加滚动视图样式 */
+.about-scroll {
+  height: calc(100vh - 90px); /* 减去导航栏的高度 */
+  margin-top: 90px; /* 为导航栏留出空间 */
+  background: #fff;
+}
+
+.about-container {
+  padding: 20px;
+  padding-bottom: 80px; /* 为底部按钮留出空间 */
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.about-content {
+  padding: 0 20px;
+}
+
+.about-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.about-text {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  text-align: justify;
+}
+
+.feature-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 15px;
+  padding-left: 10px;
+  border-left: 4px solid #1296db;
+}
+
+.feature-list {
+  padding: 10px 0;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.feature-dot {
+  color: #1296db;
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.feature-text {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 删除旧的导航栏相关样式 */
+.custom-nav,
+.nav-back,
+.back-arrow,
+.nav-title {
+  display: none;
+}
+
+/* 添加更新日志样式 */
+.update-list {
+  padding: 10px 0;
+}
+
+.update-item {
+  margin-bottom: 20px;
+}
+
+.update-version {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.update-content {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  padding-left: 15px;
+}
+
+/* 修改底部返回按钮样式，确保固定在底部 */
+.bottom-back {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 44px;
+  background: #1296db;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 22px;
+  box-shadow: 0 4px 12px rgba(18, 150, 219, 0.3);
+  z-index: 1000; /* 确保按钮始终显示在最上层 */
+}
+
+.bottom-back:active {
+  opacity: 0.8;
+}
+
+/* 页面容器 */
+.container {
+  padding: 20px;
+  background: #f7f8fa;
+  min-height: 100vh;
+}
+
+/* 信息卡片 */
+.info-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.app-logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+.app-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.app-version {
+  font-size: 14px;
+  color: #999;
+}
+
+/* 信息区块 */
+.section {
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 95%px;
+  color: #333;
+  padding: 15px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.section-content {
+  padding: 15px 20px;
+}
+
+/* 备案信息 */
+.info-item {
+  margin-bottom: 10px;
+}
+
+.info-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.info-value {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.info-desc {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* 功能项 */
+.feature-item {
+  margin-bottom: 15px;
+}
+
+.feature-title {
+  font-size: 15px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.feature-desc {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+} 

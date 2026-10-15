@@ -1,0 +1,24 @@
+<view class="container">
+  <!-- 顶部导航栏 -->
+  <view class="nav-bar">
+    <view class="back-btn" bindtap="handleBack">
+      <text class="back-icon">‹</text>
+      <text class="back-text">返回</text>
+    </view>
+    <text class="title">图片生成</text>
+  </view>
+
+  <!-- 图片生成内容区域 -->
+  <view class="image-content">
+    <view class="image-container">
+      <view class="prompt-area">
+        <textarea placeholder="请输入图片描述" bindinput="onInput" value="{{prompt}}"></textarea>
+        <button bindtap="generateImage">生成图片</button>
+      </view>
+      <view class="result-area">
+        <image wx:if="{{imageUrl}}" src="{{imageUrl}}" mode="aspectFit"></image>
+        <view wx:else class="placeholder">图片将在这里显示</view>
+      </view>
+    </view>
+  </view>
+</view> 

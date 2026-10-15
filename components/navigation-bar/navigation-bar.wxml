@@ -1,0 +1,8 @@
+<view class="navigation-bar">
+  <view class="navigation-bar-inner">
+    <view class="back-icon" wx:if="{{showBack}}" bindtap="goBack">
+      <text class="back-arrow">←</text>
+    </view>
+    <text class="title">{{title}}</text>
+  </view>
+</view> 
