@@ -1,181 +1,80 @@
 # AI灵感工具栏
 
 ## 项目简介
-AI灵感工具栏是一款基于 uni-app 框架开发的跨平台应用，集成多种AI创意工具，旨在帮助用户激发创意灵感、提高工作效率。提供AI对话、图片生成、文案创作、创意激发等功能。
+AI灵感工具栏是一款基于 **uni-app（Vue 2）** 框架开发的微信小程序，集成多种 AI 创意工具：AI 对话、图片生成、文案创作、创意激发等。前端代码为本仓库原创，AI 能力通过调用第三方大模型 API 实现。
+
+> **项目状态**：个人/归档项目，按原样共享（shared as-is）。不保证长期可运行、维护或生产可用；第三方平台与大模型接口可用性可能随时变化。
 
 ## 技术栈
-- **核心框架**：uni-app (基于 Vue.js 2.x)
-- **UI框架**：uni-app 内置组件 + 自定义组件
-- **样式处理**：SCSS
-- **云服务**：uniCloud (阿里云)
-- **开发工具**：HBuilderX
-- **包管理**：npm/yarn
-- **代码规范**：ESLint + Prettier
+- **核心框架**：uni-app（Vue 2），使用 HBuilderX 开发
+- **UI**：uni-app 内置组件 + 自定义 `navigation-bar` 组件
+- **样式**：SCSS
+- **云服务**：微信云开发（`cloudfunctions-wx/`）
+- **AI 接口**：DeepSeek OpenAI 兼容接口（`utils/deepseekApi.js`）
 
-## 项目结构
+## 运行与开发
+
+### 前置准备
+1. 安装 [HBuilderX](https://www.dcloud.io/hbuilderx.html)（uni-app 官方 IDE）
+2. 在[微信公众平台](https://mp.weixin.qq.com/)注册你自己的小程序，拿到自己的 **AppID**：本仓库 `project.config.json` 中的 `appid` 为作者示例，导入时请替换为你自己的
+3. 安装[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)，用于预览和上传微信小程序
+4. 自备一个 DeepSeek（或任意兼容 OpenAI 格式）的 **API Key**
+
+### 本地运行
+1. 用 HBuilderX 打开本项目目录
+2. HBuilderX 中把运行目标选为「微信开发者工具」，按提示关联微信开发者工具路径
+3. 在微信公众平台/云开发控制台开通云开发环境，并在小程序侧关联
+4. 上传部署 `cloudfunctions-wx/` 下的云函数（见下）
+5. 编译运行；首次进入「AI对话」页时按弹窗提示填入你的 DeepSeek API Key
+
+### 配置 AI API Key
+- `utils/deepseekApi.js` 中 `apiKey` 默认为空，代码不内置任何密钥
+- 用户在「AI 对话」页（`pages/chat/chat.vue`）首次使用时通过弹窗输入 Key，经 `saveApiKey()` 保存到本地存储（storage 键 `deepseek_api_key`）
+- 未配置 Key 时对话按钮禁用并提示「未设置API密钥，请在设置中配置DeepSeek API密钥」
+- Key 只保存在使用者自己的小程序本地 storage 中，不会随代码提交
+
+### 部署云函数
+`cloudfunctions-wx/` 目录下每个子目录都是一个微信云函数（含 `index.js` 与 `package.json`），在微信开发者工具中右键「上传并部署：云端安装依赖」：
+
+- `wx-login`：微信登录，换取 openid
+- `user`：用户信息读写
+- `getAvatarList`：头像列表
+
+## 项目结构（与实际代码一致）
+
 ```
-├── app.js                 # 小程序入口文件
-├── app.json               # 小程序全局配置
-├── app.wxss               # 小程序全局样式
-├── assets                 # 静态资源目录
-│   └── images             # 图片资源
-│       ├── default-avatar.png
-│       ├── chat-icon.png
-│       ├── image-icon.png
-│       ├── copy-icon.png
-│       └── idea-icon.png
-├── components             # 自定义组件
-│   └── navigation-bar     # 导航栏组件
-│       ├── navigation-bar.js
-│       ├── navigation-bar.json
-│       ├── navigation-bar.wxml
-│       └── navigation-bar.wxss
-├── pages                  # 页面文件
-│   ├── index              # 工具首页
-│   │   ├── index.js
-│   │   ├── index.json
-│   │   ├── index.wxml
-│   │   └── index.wxss
-│   ├── profile            # 个人中心
-│   │   ├── profile.js
-│   │   ├── profile.json
-│   │   ├── profile.wxml
-│   │   └── profile.wxss
-│   ├── about              # 关于我们
-│   │   ├── about.js
-│   │   ├── about.json
-│   │   ├── about.wxml
-│   │   └── about.wxss
-│   ├── agreement          # 用户协议
-│   │   ├── agreement.js
-│   │   ├── agreement.json
-│   │   ├── agreement.wxml
-│   │   └── agreement.wxss
-│   ├── chat               # AI对话
-│   │   ├── chat.js
-│   │   ├── chat.json
-│   │   ├── chat.wxml
-│   │   └── chat.wxss
-│   ├── image              # 图片生成
-│   │   ├── image.js
-│   │   ├── image.json
-│   │   ├── image.wxml
-│   │   └── image.wxss
-│   ├── copy               # 文案创作
-│   │   ├── copy.js
-│   │   ├── copy.json
-│   │   ├── copy.wxml
-│   │   └── copy.wxss
-│   └── idea               # 创意激发
-│       ├── idea.js
-│       ├── idea.json
-│       ├── idea.wxml
-│       └── idea.wxss
-├── uni_modules            # uni-app 模块
-├── uniCloud-aliyun        # 云开发相关
-├── static                 # 静态资源
-├── utils                  # 工具函数
-│   └── util.js            # 通用工具函数
-└── manifest.json          # 应用配置文件
+├── App.vue / main.js / uni.scss      # uni-app 入口与全局样式
+├── pages.json                        # 页面路由、tabBar、全局样式
+├── manifest.json                     # uni-app 应用配置
+├── project.config.json              # 微信开发者工具项目配置（appid 需替换）
+├── pages/                            # 8 个页面（每个目录含 .vue 源码及 HBuilderX 编译产物）
+│   ├── index/        # 工具首页
+│   ├── profile/      # 个人中心
+│   ├── about/        # 关于我们
+│   ├── agreement/    # 用户协议
+│   ├── chat/         # AI 对话（含 API Key 输入弹窗）
+│   ├── image/        # 图片生成
+│   ├── copy/         # 文案创作
+│   └── idea/         # 创意激发
+├── components/navigation-bar/       # 自定义导航栏组件
+├── cloudfunctions-wx/               # 微信云函数：wx-login / user / getAvatarList
+├── utils/deepseekApi.js             # DeepSeek API 封装（Key 从 storage 读取，默认空）
+├── uni_modules/                     # DCloud 插件市场第三方组件（见下方第三方说明）
+├── images/                          # 头像等图片资源
+├── static/                          # logo、头像 svg 等静态资源
+└── docs/项目开发补充文档.md
 ```
 
-## 功能模块
-1. 工具首页
-   - 展示所有AI工具入口
-   - 提供工具分类和快速访问
+> `project.private.config.json` 是微信开发者工具生成的**本地私有配置**（项目名、编译开关等），已通过 `.gitignore` 排除、不纳入版本管理，由工具在本地自动生成，无需手动准备。
 
-2. 个人中心
-   - 用户信息展示
-   - 设置管理
-   - 客服联系
-   - 用户协议查看
+## 第三方组件说明（uni_modules）
 
-3. AI对话
-   - 智能对话功能
-   - 历史记录保存
-   - 对话内容展示
-
-4. 图片生成
-   - AI绘画创作
-   - 图片预览
-   - 图片保存
-
-5. 文案创作
-   - 智能文案生成
-   - 文案编辑
-   - 文案保存
-
-6. 创意激发
-   - 创意建议
-   - 灵感激发
-   - 创意保存
-
-## 技术特点
-1. 使用 uni-app 框架，支持多端发布
-2. 采用自定义导航栏组件
-3. 使用 flex 布局实现响应式设计
-4. 统一的样式规范和组件复用
-5. 模块化的代码结构
-6. 完善的错误处理机制
-7. 支持云开发功能
-8. 支持分包加载优化
-
-## 开发环境
-- HBuilderX IDE
-- Node.js 环境
-- 微信开发者工具（开发微信小程序时使用）
-- 小程序基础库 2.19.0 或以上
-
-## 项目依赖
-- uni-app 框架
-- uniCloud 云开发
-- 自定义导航栏组件
-- 其他第三方组件（根据需求添加）
-
-## 开发规范
-1. 代码规范
-   - 使用 ES6+ 语法
-   - 遵循 Vue.js 官方风格指南
-   - 使用 JSDoc 注释
-   - 使用 ESLint 进行代码检查
-   - 使用 Prettier 进行代码格式化
-
-2. 命名规范
-   - 文件命名：小写字母，多个单词用连字符(-)连接
-   - 变量命名：驼峰命名法
-   - 组件命名：小写字母，多个单词用连字符(-)连接
-   - 常量命名：全大写，下划线分隔
-
-3. 目录规范
-   - 页面文件放在 pages 目录下
-   - 组件文件放在 components 目录下
-   - 静态资源放在 static 目录下
-   - 工具函数放在 utils 目录下
-   - 云开发相关放在 uniCloud-aliyun 目录下
-
-## 更新日志
-### v1.0.0 (2024-01-01)
-- 首次发布
-- 支持基础AI创作功能
-- 优化用户界面交互
-
-### v1.1.0 (2024-02-01)
-- 新增图片生成功能
-- 优化响应速度
-- 修复已知问题
-
-### v1.2.0 (2024-03-01)
-- 集成 uniCloud 云开发
-- 优化性能，支持分包加载
-- 完善错误处理机制
-- 更新 UI 设计
+`uni_modules/` 下的组件（`uni-captcha`、`uni-config-center`、`uni-feedback`、`uni-id-common`、`uni-id-pages`、`uni-open-bridge-common`、`uni-popup`、`uni-sign-in`）均为 **DCloud 插件市场的第三方插件**，不是本仓库作者的原创代码，保留其各自的原始版权与许可，**不随本仓库的 MIT 许可重新授权**。使用前请在 [DCloud 插件市场](https://ext.dcloud.net.cn/) 查看对应插件的许可条款。
 
 ## License & Attribution / 许可与来源
 
-Original project code authored for this repository is released under the MIT License; see [LICENSE](./LICENSE).
+本仓库原创代码（作者自行编写的页面、组件、云函数、工具脚本等）采用 MIT 许可证发布，见 [LICENSE](./LICENSE)。
 
-When reusing or redistributing a substantial portion, retain the LICENSE and its copyright notice. The copyright notice includes this original source URL: https://github.com/change979666/ai-toolbar-miniprogram. Please keep the source link visible in your redistributed source or project documentation.
+再分发时请保留 LICENSE 及其版权声明。版权行已包含原始仓库地址：https://github.com/change979666/ai-toolbar-miniprogram。
 
-This license applies only to original material that the repository maintainer has the right to license. Third-party libraries, vendor code, platform SDKs, trademarks, screenshots, icons, fonts, and other external assets remain subject to their respective licenses and terms. Review those terms before reuse.
-
-**Project status:** personal/archived project, shared as-is. Maintenance, compatibility, and production readiness are not guaranteed.
+下列内容**不随 MIT 许可授权**：`uni_modules/` 下的 DCloud 第三方组件、平台 SDK、商标、截图、图标、字体等外部资源，均遵循其各自的许可与条款，复用前请自行核实。
